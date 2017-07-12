@@ -10,3 +10,5 @@ class Form {
 }
 
 new Form();
+
+require('./main.css');
