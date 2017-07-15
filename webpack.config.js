@@ -19,13 +19,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/,
         use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {url: false}
-            },
-            'sass-loader'
-          ],
+          use: ['raw-loader', 'sass-loader'],
           fallback: 'style-loader'
         })
       },
