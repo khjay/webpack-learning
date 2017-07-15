@@ -12,3 +12,5 @@ class Form {
 new Form();
 
 require('./main.css');
+
+require('./main.scss');
