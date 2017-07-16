@@ -36,7 +36,15 @@ module.exports = {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: inProduction,
-    })
+    }),
+    function() {
+      this.plugin('done', status => {
+        require('fs').writeFileSync(
+          path.join(__dirname, 'dist/manifest.json'),
+          JSON.stringify(status.toJson().assetsByChunkName)
+        );
+      })
+    }
   ]
 };
 
