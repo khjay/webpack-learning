@@ -1,40 +1,25 @@
 var webpack = require('webpack');
 var path = require('path');
-var glob = require('glob');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var PurifyCSSPlugin = require('purifycss-webpack');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var inProduction = (process.env.NODE_ENV === 'production');
 
 module.exports = {
   entry: {
-    app: [
-      './src/main.js',
-      './src/main.scss'
-    ]
+    main: './src/main.js',
+    vendor: ['jquery']
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].js'
+    filename: '[name].[chunkhash].js'
   },
   module: {
     rules: [
-      {
-        test: /\.s[ac]ss$/,
-        use: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader'],
-          fallback: 'style-loader'
-        })
-      },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/,
         loader: 'file-loader',
         options: {
           name: 'images/[name].[hash].[ext]'
         }
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
       },
       { 
         test: /\.js$/, 
@@ -44,11 +29,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('[name].css'),
-    new PurifyCSSPlugin({
-      // Give paths to parse for rules. These should be absolute!
-      paths: glob.sync(path.join(__dirname, 'index.html')),
-      minimize: inProduction
+    new CleanWebpackPlugin(['dist'], {
+      root: __dirname,
+      verbose: true,
+      dry: false
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: inProduction,

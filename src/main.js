@@ -1,6 +1,6 @@
 import notification from './Notification';
 
-notification.announce('init');
+notification.announce('init again');
 notification.log('init');
 
 class Form {
@@ -11,6 +11,6 @@ class Form {
 
 new Form();
 
-require('./main.css');
+// require('./main.css');
 
-require('./main.scss');
+// require('./main.scss');
