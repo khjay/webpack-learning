@@ -1,7 +1,8 @@
-var webpack = require('webpack');
-var path = require('path');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var inProduction = (process.env.NODE_ENV === 'production');
+let webpack = require('webpack');
+let path = require('path');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
+let inProduction = (process.env.NODE_ENV === 'production');
+let BuildManifestPlugin = require('./build/plugins/BuildManifestPlugin');
 
 module.exports = {
   entry: {
@@ -50,14 +51,7 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       minimize: inProduction,
     }),
-    function() {
-      this.plugin('done', status => {
-        require('fs').writeFileSync(
-          path.join(__dirname, 'dist/manifest.json'),
-          JSON.stringify(status.toJson().assetsByChunkName)
-        );
-      })
-    }
+    new BuildManifestPlugin(),
   ]
 };
 
